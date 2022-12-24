@@ -8,11 +8,10 @@
 using namespace std;
 
 const int maxn = 101;
-int n, be, en;
+int n, be, en, ans[maxn];
 vector<int> ke[maxn];
 ifstream inp("AI_Search_2.INP");
 bool check[maxn];
-int ans[maxn];
 
 void nhap(){
 	for (int i = 1; i <= n; ++i){
@@ -49,7 +48,7 @@ signed main(){
 	cout << "Nhap so dinh: "; inp >> n;
 	nhap();
 	memset(check, false, sizeof(check) * sizeof(bool));
-	cout << "Nhap dinh xuat phat: "; cin >> be;
+	cout << "\nNhap dinh xuat phat: "; cin >> be;
 	cout << "Nhap dinh ket thuc: "; cin >> en;
 	dfs(be);
 	if (!check[en]){

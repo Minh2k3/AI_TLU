@@ -1,5 +1,11 @@
 // AI : Min-Max
 
+// Y tuong : Xay dung mot cau truc node
+//			 Moi node chua gia tri cua node, so con cua node,
+//			 quan li cac con cua node
+//			 Dpt khi tim gia tri cua mot node bat ki la O(n)
+//			 Khi xay dung de quy den node la roi di dan len
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -29,43 +35,46 @@ const int MAXN = (int)200003;
 const ll INF = (ll)1e18;
 
 // Khai bao cac bien, hang su dung toan cuc
-const int maxn = 101;	// Max so phan tu la 100
-int n;
-vector<int> f(maxn+1), val(maxn+1);
 ifstream inp("Ai_Search_8.INP");
+
 struct node {
-	int elem, maxOfSon, minOfSon, numOfSon;
+	ll elem, numOfSon;
 	vector<node> son;	
 };
 
-
 // Phan khai bao ham
-void build() {
-	cout << "Nhap so node con: "; inp >> t; 
-}
-
-void MaxVal(int u) {
-	if (son[u].size() == 0) {
-		val[u] = f[u];
+void build(node &t, ll depth){
+	cout << "Nhap so node con: "; inp >> t.numOfSon;
+	if (t.numOfSon) {
+		FOR(i,0,t.numOfSon) {
+			node x;
+			build(x, depth + 1);
+			t.son.pb(x);
+		}
+		if (depth & 1) {
+			t.elem = INF;
+			each(son,t.son) {
+				t.elem = min(t.elem, son.elem);
+			}
+		}
+		else {
+			t.elem = -INF;
+			each(son, t.son) {
+				t.elem = max(t.elem, son.elem);
+			}
+		}
 	}
 	else {
-		MaxVal[u] = maxv(son[u]);
-	}
-}
-
-void MinVal(int u) {
-	if (son[u].size() == 0) {
-		MinVal[u] = f[u];
-	}
-	else {
-		MinVal[u] = minv(son[u]);
+		cout << "Nhap gia tri tai node: "; inp >> t.elem;
 	}
 }
 
 // Chuong trinh chinh
 int main(){
 	// Mac dinh nut goc la MAX
-	nhap();
+	node root;
+	build(root, 0);
+	cout << "\n\nGia tri tai goc la: " << root.elem << nl;
 }
 
 /*
